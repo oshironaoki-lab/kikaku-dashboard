@@ -62,8 +62,21 @@
     border-bottom: 1px solid var(--border);
   }
   .top-inner { max-width: 760px; margin: 0 auto; padding: 12px 16px; }
+  .top-titlebar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .top-title { font-size: 11px; letter-spacing: .1em; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
   .top-h1 { font-size: 17px; font-weight: 800; margin: 3px 0 10px; letter-spacing: -0.01em; }
+  .refresh-btn {
+    -webkit-appearance: none; appearance: none; border: 1px solid var(--border-strong); background: var(--surface);
+    color: var(--text); font: inherit; font-size: 11.5px; font-weight: 700;
+    padding: 6px 12px; border-radius: 999px; cursor: pointer; flex: none; min-height: 30px;
+    display: inline-flex; align-items: center; gap: 6px; -webkit-tap-highlight-color: transparent;
+    transition: background .15s, transform .15s;
+  }
+  .refresh-btn:active { transform: scale(.96); }
+  .refresh-btn .ic { display: inline-block; transition: transform .5s ease; }
+  .refresh-btn.spinning .ic { animation: spin .6s linear; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .refresh-btn.spinning .ic { animation: none; } }
 
   .search-box {
     display: flex; align-items: center; gap: 8px;
@@ -227,7 +240,13 @@
 
 <header class="top">
   <div class="top-inner">
-    <div class="top-title">Proposal Library</div>
+    <div class="top-titlebar">
+      <div class="top-title">Proposal Library</div>
+      <button class="refresh-btn" id="refreshBtn" type="button" aria-label="最新の公開内容に更新">
+        <svg class="ic" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
+        <span>更新</span>
+      </button>
+    </div>
     <h1 class="top-h1">企画ダッシュボード</h1>
     <div class="search-box">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -583,5 +602,37 @@
     .catch(function () {
       document.getElementById('grid').innerHTML = '<div class="empty-state">データの読み込みに失敗しました。</div>';
     });
+
+  var refreshBtn = document.getElementById('refreshBtn');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', function () {
+      refreshBtn.classList.add('spinning');
+      refreshBtn.disabled = true;
+      var unloaded = false;
+      window.addEventListener('pagehide', function () { unloaded = true; });
+      setTimeout(function () {
+        if (unloaded) return;
+        refreshBtn.classList.remove('spinning');
+        refreshBtn.disabled = false;
+        var note = document.getElementById('refreshFailNote');
+        if (!note) {
+          note = document.createElement('div');
+          note.id = 'refreshFailNote';
+          note.style.cssText = 'font-size:10.5px;color:var(--bad);width:100%;margin-top:6px;';
+          note.textContent = '自動更新に失敗しました。ブラウザでこのページを閉じてから、リンクを開き直してください。';
+          refreshBtn.closest('.top-titlebar').appendChild(note);
+        }
+      }, 1500);
+      var url = new URL(location.href);
+      url.searchParams.set('_r', Date.now());
+      try {
+        if (window.top && window.top !== window.self) {
+          window.top.location.href = url.toString();
+          return;
+        }
+      } catch (e) {}
+      location.replace(url.toString());
+    });
+  }
 })();
 </script>
