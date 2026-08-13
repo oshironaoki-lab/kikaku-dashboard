@@ -143,6 +143,28 @@
       "dateAdded": "2026-07-28",
       "cover": "covers/supplement-brand-scoring.png",
       "pageCount": 6
+    },
+    {
+      "id": "item-96524d77",
+      "title": "セルラーコンペ（通信品質）企画考え方素案",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/セルラーコンペ（通信品質）企画考え方素案.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/item-96524d77/001.png",
+      "pageCount": 16
+    },
+    {
+      "id": "1110-7db4ae80",
+      "title": "市役所サイネージ広告資料 1110",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/市役所サイネージ広告資料_1110.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/1110-7db4ae80/001.png",
+      "pageCount": 17
     }
   ]
 }
