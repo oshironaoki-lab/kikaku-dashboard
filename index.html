@@ -90,6 +90,32 @@
 
   main { max-width: 760px; margin: 0 auto; padding: 16px 16px 0; }
 
+  /* ---- Carousel ---- */
+  .carousel {
+    position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 18px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .carousel-track { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+  .carousel-slide {
+    flex: none; width: 100%; aspect-ratio: 16 / 7; position: relative;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .carousel-slide .cs-media {
+    position: absolute; inset: 0; background-size: cover; background-position: center;
+  }
+  .carousel-slide .cs-overlay {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px 12px;
+    background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.32) 65%, transparent);
+  }
+  .carousel-slide .cs-title { font-size: 14px; font-weight: 800; color: #fff; line-height: 1.4; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+  .carousel-slide .cs-desc { font-size: 11px; color: rgba(255,255,255,0.88); margin-top: 3px; line-height: 1.6;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .carousel-dots { position: absolute; right: 12px; bottom: 10px; display: flex; gap: 5px; z-index: 2; }
+  .carousel-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.45); transition: background .2s, transform .2s; }
+  .carousel-dots span.active { background: #fff; transform: scale(1.25); }
+  @media (prefers-reduced-motion: reduce) { .carousel-track { transition: none; } }
+
   .result-count { font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; }
 
   .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -97,13 +123,16 @@
 
   .card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-    padding: 14px 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px;
+    overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
   }
+  .card-cover { position: relative; width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-position: center; }
+  .card-cover .filetype-badge { position: absolute; top: 8px; left: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+  .card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .card-top { display: flex; align-items: flex-start; gap: 10px; }
   .filetype-badge {
-    flex: none; width: 34px; height: 34px; border-radius: 9px;
+    flex: none; width: 30px; height: 30px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 800; color: #fff;
+    font-size: 9px; font-weight: 800; color: #fff;
   }
   .filetype-badge.pdf { background: var(--pdf); }
   .filetype-badge.pptx { background: var(--ppt); }
@@ -144,6 +173,10 @@
 </header>
 
 <main>
+  <div class="carousel" id="carousel" hidden>
+    <div class="carousel-track" id="carouselTrack"></div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
   <div class="result-count" id="resultCount"></div>
   <div class="grid" id="grid"></div>
 </main>
@@ -167,6 +200,21 @@
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
+  }
+
+  function hashHue(str) {
+    var h = 0;
+    for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    return h % 360;
+  }
+
+  function coverBgCss(item) {
+    if (item.cover) {
+      return "background-image:url('" + encodeURI(item.cover) + "')";
+    }
+    var hue = hashHue(item.id || item.title || '');
+    var hue2 = (hue + 40) % 360;
+    return 'background-image:linear-gradient(135deg, hsl(' + hue + ',55%,40%), hsl(' + hue2 + ',55%,26%))';
   }
 
   function renderTags() {
@@ -226,21 +274,25 @@
       var tagsHtml = (it.tags || []).map(function (t) { return '<span class="card-tag">' + escapeHtml(t) + '</span>'; }).join('');
       return '' +
         '<div class="card">' +
-          '<div class="card-top">' +
+          '<div class="card-cover" style="' + coverBgCss(it) + '">' +
             '<div class="filetype-badge ' + ft + '">' + ft.toUpperCase() + '</div>' +
-            '<div>' +
-              '<div class="card-title">' + escapeHtml(it.title) + '</div>' +
-              (it.client ? '<div class="card-client">' + escapeHtml(it.client) + '</div>' : '') +
-            '</div>' +
           '</div>' +
-          (it.description ? '<div class="card-desc">' + escapeHtml(it.description) + '</div>' : '') +
-          (tagsHtml ? '<div class="card-tags">' + tagsHtml + '</div>' : '') +
-          '<div class="card-foot">' +
-            '<span class="card-date">' + escapeHtml(it.dateAdded || '') + '</span>' +
-            '<a class="dl-btn" href="' + encodeURI(it.filename) + '" download>' +
-              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
-              'ダウンロード' +
-            '</a>' +
+          '<div class="card-body">' +
+            '<div class="card-top">' +
+              '<div>' +
+                '<div class="card-title">' + escapeHtml(it.title) + '</div>' +
+                (it.client ? '<div class="card-client">' + escapeHtml(it.client) + '</div>' : '') +
+              '</div>' +
+            '</div>' +
+            (it.description ? '<div class="card-desc">' + escapeHtml(it.description) + '</div>' : '') +
+            (tagsHtml ? '<div class="card-tags">' + tagsHtml + '</div>' : '') +
+            '<div class="card-foot">' +
+              '<span class="card-date">' + escapeHtml(it.dateAdded || '') + '</span>' +
+              '<a class="dl-btn" href="' + encodeURI(it.filename) + '" download>' +
+                '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                'ダウンロード' +
+              '</a>' +
+            '</div>' +
           '</div>' +
         '</div>';
     }).join('');
@@ -251,6 +303,66 @@
     renderGrid();
   });
 
+  var carouselTimer = null;
+  var carouselIndex = 0;
+
+  function renderCarousel() {
+    var wrap = document.getElementById('carousel');
+    var track = document.getElementById('carouselTrack');
+    var dots = document.getElementById('carouselDots');
+
+    if (carouselTimer) { clearInterval(carouselTimer); carouselTimer = null; }
+
+    if (state.items.length === 0) {
+      wrap.hidden = true;
+      return;
+    }
+    wrap.hidden = false;
+
+    var slides = state.items.slice(0, 10);
+
+    track.innerHTML = slides.map(function (it) {
+      return '' +
+        '<a class="carousel-slide" href="' + encodeURI(it.filename) + '" download>' +
+          '<div class="cs-media" style="' + coverBgCss(it) + '"></div>' +
+          '<div class="cs-overlay">' +
+            '<div class="cs-title">' + escapeHtml(it.title) + '</div>' +
+            (it.description ? '<div class="cs-desc">' + escapeHtml(it.description) + '</div>' : '') +
+          '</div>' +
+        '</a>';
+    }).join('');
+
+    dots.innerHTML = slides.map(function (_, i) {
+      return '<span data-i="' + i + '"' + (i === 0 ? ' class="active"' : '') + '></span>';
+    }).join('');
+
+    carouselIndex = 0;
+
+    function goTo(i) {
+      carouselIndex = (i + slides.length) % slides.length;
+      track.style.transform = 'translateX(-' + (carouselIndex * 100) + '%)';
+      Array.from(dots.children).forEach(function (d, idx) {
+        d.classList.toggle('active', idx === carouselIndex);
+      });
+    }
+
+    Array.from(dots.children).forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        goTo(parseInt(dot.getAttribute('data-i'), 10));
+        resetTimer();
+      });
+    });
+
+    function resetTimer() {
+      if (carouselTimer) clearInterval(carouselTimer);
+      if (slides.length > 1) {
+        carouselTimer = setInterval(function () { goTo(carouselIndex + 1); }, 3000);
+      }
+    }
+
+    resetTimer();
+  }
+
   fetch('./data.json?_r=' + Date.now())
     .then(function (r) { return r.json(); })
     .then(function (data) {
@@ -259,6 +371,7 @@
       });
       renderTags();
       renderGrid();
+      renderCarousel();
     })
     .catch(function () {
       document.getElementById('grid').innerHTML = '<div class="empty-state">データの読み込みに失敗しました。</div>';

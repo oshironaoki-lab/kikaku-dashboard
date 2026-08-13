@@ -6,6 +6,7 @@
       "client": "JA沖縄中央会",
       "tags": ["JA沖縄中央会", "農業・団体"],
       "description": "JA沖縄中央会向けの企画提案資料。",
+      "cover": "covers/ja-okinawa-chuokai.jpeg",
       "filename": "proposals/JA沖縄中央会　企画資料.pptx",
       "dateAdded": "2026-07-08"
     },
@@ -15,6 +16,7 @@
       "client": "沖縄セルラー電話（Laifue）",
       "tags": ["Laifue", "沖縄セルラー"],
       "description": "沖縄セルラー電話「Laifue」向けの企画提案資料。",
+      "cover": "covers/laifue.jpeg",
       "filename": "proposals/Laifue企画資料.pptx",
       "dateAdded": "2026-06-26"
     },
@@ -24,6 +26,7 @@
       "client": "リクルート",
       "tags": ["リクルート", "パートナープログラム"],
       "description": "リクルートパートナープログラムに関する企画書の改訂版。",
+      "cover": "covers/recruit-partner-program.jpeg",
       "filename": "proposals/リクルートパートナープログラム_企画書_改訂版.pptx",
       "dateAdded": "2026-07-14"
     },
