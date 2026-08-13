@@ -103,7 +103,7 @@
     text-decoration: none; color: inherit; display: block;
   }
   .carousel-slide .cs-media {
-    position: absolute; inset: 0; background-size: cover; background-position: center;
+    position: absolute; inset: 0; background-color: #fff; background-size: contain; background-repeat: no-repeat; background-position: center;
   }
   .carousel-slide .cs-overlay {
     position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px 12px;
@@ -117,6 +117,16 @@
   .carousel-dots span.active { background: #fff; transform: scale(1.25); }
   @media (prefers-reduced-motion: reduce) { .carousel-track { transition: none; } }
 
+  .nav-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+    width: 32px; height: 32px; border-radius: 50%; border: none;
+    background: rgba(0,0,0,0.4); color: #fff; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .nav-arrow:active { background: rgba(0,0,0,0.6); }
+  .nav-arrow.prev { left: 8px; }
+  .nav-arrow.next { right: 8px; }
+
   .result-count { font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; }
 
   .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -126,7 +136,7 @@
     background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
     overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
   }
-  .card-cover { position: relative; width: 100%; aspect-ratio: 16 / 9; background-size: cover; background-position: center; }
+  .card-cover { position: relative; width: 100%; aspect-ratio: 16 / 9; background-color: #fff; background-size: contain; background-repeat: no-repeat; background-position: center; }
   .card-cover .filetype-badge { position: absolute; top: 8px; left: 8px; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
   .card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .card-top { display: flex; align-items: flex-start; gap: 10px; }
@@ -188,11 +198,21 @@
     border-radius: 18px 18px 0 0; overflow-y: auto; box-shadow: 0 20px 60px -20px rgba(0,0,0,.5);
   }
   @media (min-width: 640px) { .modal-card { border-radius: 18px; } }
-  .modal-cover { width: 100%; aspect-ratio: 16 / 10; background-size: cover; background-position: center; position: relative; }
+  .modal-cover {
+    width: 100%; aspect-ratio: 16 / 10; background: #fff; position: relative; overflow: hidden;
+  }
+  .modal-cover img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff;
+  }
   .modal-close {
     position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%;
     background: rgba(0,0,0,0.55); color: #fff; border: none; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 16px;
+    cursor: pointer; font-size: 16px; z-index: 4;
+  }
+  .modal-page-count {
+    position: absolute; left: 10px; bottom: 10px; z-index: 3;
+    background: rgba(0,0,0,0.55); color: #fff; font-size: 10.5px; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px;
   }
   .modal-body { padding: 16px 18px 20px; }
   .modal-title { font-size: 16px; font-weight: 800; line-height: 1.4; }
@@ -220,6 +240,12 @@
 <main>
   <div class="carousel" id="carousel" hidden>
     <div class="carousel-track" id="carouselTrack"></div>
+    <button type="button" class="nav-arrow prev" id="carouselPrev" aria-label="前の資料">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button type="button" class="nav-arrow next" id="carouselNext" aria-label="次の資料">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
     <div class="carousel-dots" id="carouselDots"></div>
   </div>
   <div class="result-count" id="resultCount"></div>
@@ -376,13 +402,33 @@
     });
   }
 
+  function pageImageUrl(item, pageNum) {
+    var n = String(pageNum).padStart(3, '0');
+    return encodeURI('pages/' + item.id + '/' + n + '.png');
+  }
+
   function openPreview(item) {
     var root = document.getElementById('modalRoot');
     var tagsHtml = (item.tags || []).map(function (t) { return '<span class="card-tag">' + escapeHtml(t) + '</span>'; }).join('');
+    var pageCount = item.pageCount || 0;
+    var pageNum = 1;
+
+    var coverInner = pageCount > 0
+      ? '<img id="modalPageImg" src="' + pageImageUrl(item, 1) + '" alt="' + escapeHtml(item.title) + '">' +
+        '<button type="button" class="nav-arrow prev" id="modalPrev" aria-label="前のページ">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>' +
+        '</button>' +
+        '<button type="button" class="nav-arrow next" id="modalNext" aria-label="次のページ">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>' +
+        '</button>' +
+        '<div class="modal-page-count" id="modalPageCount">1 / ' + pageCount + '</div>'
+      : '<div style="position:absolute;inset:0;' + coverBgCss(item) + ';background-size:contain;background-repeat:no-repeat;background-position:center;"></div>';
+
     root.innerHTML = '' +
       '<div class="modal-overlay" id="modalOverlay">' +
         '<div class="modal-card">' +
-          '<div class="modal-cover" style="' + coverBgCss(item) + '">' +
+          '<div class="modal-cover">' +
+            coverInner +
             '<button type="button" class="modal-close" id="modalClose" aria-label="閉じる">&times;</button>' +
           '</div>' +
           '<div class="modal-body">' +
@@ -406,7 +452,26 @@
     });
     document.getElementById('modalClose').addEventListener('click', closePreview);
     document.addEventListener('keydown', escCloseHandler);
+
+    if (pageCount > 0) {
+      var img = document.getElementById('modalPageImg');
+      var countEl = document.getElementById('modalPageCount');
+      function showPage(n) {
+        pageNum = ((n - 1 + pageCount) % pageCount) + 1;
+        img.src = pageImageUrl(item, pageNum);
+        countEl.textContent = pageNum + ' / ' + pageCount;
+      }
+      document.getElementById('modalPrev').addEventListener('click', function () { showPage(pageNum - 1); });
+      document.getElementById('modalNext').addEventListener('click', function () { showPage(pageNum + 1); });
+      pageKeyHandler = function (e) {
+        if (e.key === 'ArrowLeft') showPage(pageNum - 1);
+        if (e.key === 'ArrowRight') showPage(pageNum + 1);
+      };
+      document.addEventListener('keydown', pageKeyHandler);
+    }
   }
+
+  var pageKeyHandler = null;
 
   function escCloseHandler(e) {
     if (e.key === 'Escape') closePreview();
@@ -415,6 +480,7 @@
   function closePreview() {
     document.getElementById('modalRoot').innerHTML = '';
     document.removeEventListener('keydown', escCloseHandler);
+    if (pageKeyHandler) { document.removeEventListener('keydown', pageKeyHandler); pageKeyHandler = null; }
   }
 
   document.getElementById('searchInput').addEventListener('input', function (e) {
@@ -483,6 +549,15 @@
         goTo(parseInt(dot.getAttribute('data-i'), 10));
         resetTimer();
       });
+    });
+
+    document.getElementById('carouselPrev').addEventListener('click', function () {
+      goTo(carouselIndex - 1);
+      resetTimer();
+    });
+    document.getElementById('carouselNext').addEventListener('click', function () {
+      goTo(carouselIndex + 1);
+      resetTimer();
     });
 
     function resetTimer() {

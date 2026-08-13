@@ -11,7 +11,8 @@
       "description": "JA沖縄中央会向けの企画提案資料。",
       "cover": "covers/ja-okinawa-chuokai.jpeg",
       "filename": "proposals/JA沖縄中央会　企画資料.pptx",
-      "dateAdded": "2026-07-08"
+      "dateAdded": "2026-07-08",
+      "pageCount": 17
     },
     {
       "id": "laifue",
@@ -24,7 +25,8 @@
       "description": "沖縄セルラー電話「Laifue」向けの企画提案資料。",
       "cover": "covers/laifue.jpeg",
       "filename": "proposals/Laifue企画資料.pptx",
-      "dateAdded": "2026-06-26"
+      "dateAdded": "2026-06-26",
+      "pageCount": 4
     },
     {
       "id": "recruit-partner-program",
@@ -37,7 +39,8 @@
       "description": "リクルートパートナープログラムに関する企画書の改訂版。",
       "cover": "covers/recruit-partner-program.jpeg",
       "filename": "proposals/リクルートパートナープログラム_企画書_改訂版.pptx",
-      "dateAdded": "2026-07-14"
+      "dateAdded": "2026-07-14",
+      "pageCount": 10
     },
     {
       "id": "ryukyu-lease-competition-proposal",
@@ -51,7 +54,8 @@
       "description": "琉球リース様向け企画コンペのメイン提案書。",
       "filename": "proposals/①株式会社宣伝御中_琉球リース様企画コンペご提案書につきまして.pdf",
       "dateAdded": "2026-07-28",
-      "cover": "covers/ryukyu-lease-competition-proposal.png"
+      "cover": "covers/ryukyu-lease-competition-proposal.png",
+      "pageCount": 2
     },
     {
       "id": "ryukyu-lease-mvv-proposal",
@@ -65,7 +69,8 @@
       "description": "琉球リース様のMVV（ミッション・ビジョン・バリュー）策定・浸透プロジェクトの統合提案書。",
       "filename": "proposals/琉球リース様_MVV策定浸透_提案書_統合版.pptx",
       "dateAdded": "2026-07-23",
-      "cover": "covers/ryukyu-lease-mvv-proposal.png"
+      "cover": "covers/ryukyu-lease-mvv-proposal.png",
+      "pageCount": 21
     },
     {
       "id": "supplement-edift-brochure",
@@ -79,7 +84,8 @@
       "description": "汎用の会社・サービス紹介パンフレット。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料①_Edift_総合パンフレット_v8.pdf",
       "dateAdded": "2026-07-28",
-      "cover": "covers/supplement-edift-brochure.png"
+      "cover": "covers/supplement-edift-brochure.png",
+      "pageCount": 8
     },
     {
       "id": "supplement-corebook",
@@ -93,7 +99,8 @@
       "description": "CoreBookに関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料②_CoreBook説明資料.pdf",
       "dateAdded": "2026-07-28",
-      "cover": "covers/supplement-corebook.png"
+      "cover": "covers/supplement-corebook.png",
+      "pageCount": 4
     },
     {
       "id": "supplement-vision-realize",
@@ -106,7 +113,8 @@
       "description": "ビジョン策定・実現支援に関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料③_Visionリアライズ.pdf",
       "dateAdded": "2026-07-28",
-      "cover": "covers/supplement-vision-realize.png"
+      "cover": "covers/supplement-vision-realize.png",
+      "pageCount": 2
     },
     {
       "id": "supplement-hr-evaluation",
@@ -119,7 +127,8 @@
       "description": "人事評価制度構築支援に関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料④_03_人事評価制度構築支援.pdf",
       "dateAdded": "2026-07-28",
-      "cover": "covers/supplement-hr-evaluation.png"
+      "cover": "covers/supplement-hr-evaluation.png",
+      "pageCount": 6
     },
     {
       "id": "supplement-brand-scoring",
@@ -132,7 +141,8 @@
       "description": "ブランドスコアリングに関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料⑤_ブランドスコアリング.pdf",
       "dateAdded": "2026-07-28",
-      "cover": "covers/supplement-brand-scoring.png"
+      "cover": "covers/supplement-brand-scoring.png",
+      "pageCount": 6
     }
   ]
 }
