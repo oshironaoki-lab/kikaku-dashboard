@@ -200,6 +200,19 @@
   .preview-btn:active { background: var(--surface-2); }
   .card-actions { display: flex; align-items: center; gap: 8px; }
 
+  .delete-link {
+    display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px;
+    border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted);
+    border-radius: 999px; text-decoration: none; flex: none;
+  }
+  .delete-link:active { background: var(--pdf-soft); color: var(--pdf); }
+  .modal-delete {
+    display: inline-flex; align-items: center; gap: 5px;
+    border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted);
+    text-decoration: none; font: inherit; font-size: 12px; font-weight: 700;
+    padding: 11px 13px; border-radius: 999px; flex: none;
+  }
+
   /* ---- Preview modal ---- */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(10,9,6,0.6); z-index: 100;
@@ -298,6 +311,13 @@
     var h = 0;
     for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
     return h % 360;
+  }
+
+  function deleteMailtoUrl(item) {
+    var subject = '企画ダッシュボード 削除依頼: ' + item.title;
+    var body = '以下の資料の削除をお願いします。\n\nID: ' + item.id + '\nタイトル: ' + item.title +
+      (item.client ? '\nクライアント: ' + item.client : '') + '\n';
+    return 'mailto:oshiro.naoki@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
   }
 
   function coverBgCss(item) {
@@ -407,6 +427,9 @@
                   '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
                   'ダウンロード' +
                 '</a>' +
+                '<a class="delete-link" href="' + deleteMailtoUrl(it) + '" title="削除を依頼する" aria-label="削除を依頼する">' +
+                  '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>' +
+                '</a>' +
               '</div>' +
             '</div>' +
           '</div>' +
@@ -459,6 +482,10 @@
               '<a class="dl-btn" href="' + encodeURI(item.filename) + '" download>' +
                 '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
                 'ダウンロード' +
+              '</a>' +
+              '<a class="modal-delete" href="' + deleteMailtoUrl(item) + '">' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>' +
+                '削除依頼' +
               '</a>' +
             '</div>' +
           '</div>' +
