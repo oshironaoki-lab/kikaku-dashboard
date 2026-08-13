@@ -1,0 +1,267 @@
+<title>企画ダッシュボード</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  :root {
+    --bg: #f5f5f2;
+    --surface: #ffffff;
+    --surface-2: #eeede6;
+    --text: #17160f;
+    --text-secondary: #57554c;
+    --text-muted: #8c897d;
+    --border: rgba(23,22,15,0.11);
+    --border-strong: rgba(23,22,15,0.22);
+    --shadow: 0 1px 2px rgba(23,22,15,0.04), 0 8px 20px -14px rgba(23,22,15,0.22);
+    --accent: #6849c9; --accent-soft: #e6ddf9;
+    --pdf: #b0392b; --pdf-soft: #fbe1dc;
+    --ppt: #c9540c; --ppt-soft: #f8e2d1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16150f; --surface: #1f1e17; --surface-2: #28261d;
+      --text: #f1efe6; --text-secondary: #c2bfb2; --text-muted: #918e80;
+      --border: rgba(241,239,230,0.13); --border-strong: rgba(241,239,230,0.24);
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 8px 20px -14px rgba(0,0,0,0.6);
+      --accent: #a68af0; --accent-soft: #332a4d;
+      --pdf: #e3897c; --pdf-soft: #45241e;
+      --ppt: #f0925a; --ppt-soft: #452c1c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16150f; --surface: #1f1e17; --surface-2: #28261d;
+    --text: #f1efe6; --text-secondary: #c2bfb2; --text-muted: #918e80;
+    --border: rgba(241,239,230,0.13); --border-strong: rgba(241,239,230,0.24);
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 8px 20px -14px rgba(0,0,0,0.6);
+    --accent: #a68af0; --accent-soft: #332a4d;
+    --pdf: #e3897c; --pdf-soft: #45241e;
+    --ppt: #f0925a; --ppt-soft: #452c1c;
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f5f2; --surface: #ffffff; --surface-2: #eeede6;
+    --text: #17160f; --text-secondary: #57554c; --text-muted: #8c897d;
+    --border: rgba(23,22,15,0.11); --border-strong: rgba(23,22,15,0.22);
+    --shadow: 0 1px 2px rgba(23,22,15,0.04), 0 8px 20px -14px rgba(23,22,15,0.22);
+    --accent: #6849c9; --accent-soft: #e6ddf9;
+    --pdf: #b0392b; --pdf-soft: #fbe1dc;
+    --ppt: #c9540c; --ppt-soft: #f8e2d1;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Yu Gothic UI", "Hiragino Kaku Gothic ProN", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6; font-feature-settings: "palt" 1;
+    padding-bottom: 48px;
+  }
+
+  header.top {
+    position: sticky; top: 0; z-index: 30;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-inner { max-width: 760px; margin: 0 auto; padding: 12px 16px; }
+  .top-title { font-size: 11px; letter-spacing: .1em; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+  .top-h1 { font-size: 17px; font-weight: 800; margin: 3px 0 10px; letter-spacing: -0.01em; }
+
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border-strong); border-radius: 999px;
+    padding: 9px 14px; margin-bottom: 10px;
+  }
+  .search-box svg { flex: none; color: var(--text-muted); }
+  .search-box input {
+    border: none; outline: none; background: transparent; color: var(--text);
+    font: inherit; font-size: 13.5px; width: 100%;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; padding-bottom: 4px; }
+  .tag-chip {
+    appearance: none; border: 1px solid var(--border-strong); background: var(--surface);
+    color: var(--text-secondary); font: inherit; font-size: 11.5px; font-weight: 700;
+    padding: 6px 12px; border-radius: 999px; cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .tag-chip[aria-pressed="true"] {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+
+  main { max-width: 760px; margin: 0 auto; padding: 16px 16px 0; }
+
+  .result-count { font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+  .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px 15px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px;
+  }
+  .card-top { display: flex; align-items: flex-start; gap: 10px; }
+  .filetype-badge {
+    flex: none; width: 34px; height: 34px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; color: #fff;
+  }
+  .filetype-badge.pdf { background: var(--pdf); }
+  .filetype-badge.pptx { background: var(--ppt); }
+  .card-title { font-size: 14px; font-weight: 800; line-height: 1.4; }
+  .card-client { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.7; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .card-tag {
+    font-size: 10px; font-weight: 700; color: var(--accent); background: var(--accent-soft);
+    padding: 2px 8px; border-radius: 999px;
+  }
+  .card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 4px; }
+  .card-date { font-size: 10px; color: var(--text-muted); }
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    font-size: 11.5px; font-weight: 800; padding: 7px 13px; border-radius: 999px;
+  }
+  .dl-btn:active { opacity: .8; }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 13px; line-height: 1.9;
+  }
+
+  footer.pagefoot { max-width: 760px; margin: 30px auto 0; padding: 16px; font-size: 10.5px; color: var(--text-muted); line-height: 1.8; border-top: 1px solid var(--border); }
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="top-title">Proposal Library</div>
+    <h1 class="top-h1">企画ダッシュボード</h1>
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="キーワードで検索（タイトル・クライアント・説明文）">
+    </div>
+    <div class="tag-row" id="tagRow"></div>
+  </div>
+</header>
+
+<main>
+  <div class="result-count" id="resultCount"></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer class="pagefoot">
+  社内企画資料ライブラリ。掲載資料の著作権・利用範囲は各案件の契約条件に準じます。
+</footer>
+
+<script>
+(function () {
+  var state = { items: [], activeTags: new Set(), query: '' };
+
+  function fileTypeOf(filename) {
+    var ext = filename.split('.').pop().toLowerCase();
+    if (ext === 'pdf') return 'pdf';
+    if (ext === 'ppt' || ext === 'pptx') return 'pptx';
+    return ext;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function renderTags() {
+    var tagSet = new Set();
+    state.items.forEach(function (it) { (it.tags || []).forEach(function (t) { tagSet.add(t); }); });
+    var tagRow = document.getElementById('tagRow');
+    tagRow.innerHTML = '';
+    Array.from(tagSet).sort().forEach(function (tag) {
+      var btn = document.createElement('button');
+      btn.className = 'tag-chip';
+      btn.type = 'button';
+      btn.textContent = tag;
+      btn.setAttribute('aria-pressed', state.activeTags.has(tag) ? 'true' : 'false');
+      btn.addEventListener('click', function () {
+        if (state.activeTags.has(tag)) state.activeTags.delete(tag);
+        else state.activeTags.add(tag);
+        renderTags();
+        renderGrid();
+      });
+      tagRow.appendChild(btn);
+    });
+  }
+
+  function matches(item) {
+    if (state.activeTags.size > 0) {
+      var itemTags = new Set(item.tags || []);
+      for (var t of state.activeTags) { if (!itemTags.has(t)) return false; }
+    }
+    if (state.query) {
+      var hay = [item.title, item.client, item.description, (item.tags || []).join(' ')].join(' ').toLowerCase();
+      if (hay.indexOf(state.query.toLowerCase()) === -1) return false;
+    }
+    return true;
+  }
+
+  function renderGrid() {
+    var filtered = state.items.filter(matches);
+    var grid = document.getElementById('grid');
+    var countEl = document.getElementById('resultCount');
+
+    if (state.items.length === 0) {
+      grid.innerHTML = '';
+      countEl.textContent = '';
+      grid.innerHTML = '<div class="empty-state">まだ企画資料が登録されていません。<br>担当者に資料の追加を依頼してください。</div>';
+      return;
+    }
+
+    countEl.textContent = filtered.length + '件 / 全' + state.items.length + '件';
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="empty-state">条件に一致する資料が見つかりませんでした。</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function (it) {
+      var ft = fileTypeOf(it.filename);
+      var tagsHtml = (it.tags || []).map(function (t) { return '<span class="card-tag">' + escapeHtml(t) + '</span>'; }).join('');
+      return '' +
+        '<div class="card">' +
+          '<div class="card-top">' +
+            '<div class="filetype-badge ' + ft + '">' + ft.toUpperCase() + '</div>' +
+            '<div>' +
+              '<div class="card-title">' + escapeHtml(it.title) + '</div>' +
+              (it.client ? '<div class="card-client">' + escapeHtml(it.client) + '</div>' : '') +
+            '</div>' +
+          '</div>' +
+          (it.description ? '<div class="card-desc">' + escapeHtml(it.description) + '</div>' : '') +
+          (tagsHtml ? '<div class="card-tags">' + tagsHtml + '</div>' : '') +
+          '<div class="card-foot">' +
+            '<span class="card-date">' + escapeHtml(it.dateAdded || '') + '</span>' +
+            '<a class="dl-btn" href="' + encodeURI(it.filename) + '" download>' +
+              '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+              'ダウンロード' +
+            '</a>' +
+          '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  document.getElementById('searchInput').addEventListener('input', function (e) {
+    state.query = e.target.value;
+    renderGrid();
+  });
+
+  fetch('./data.json?_r=' + Date.now())
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      state.items = (data.items || []).slice().sort(function (a, b) {
+        return (b.dateAdded || '').localeCompare(a.dateAdded || '');
+      });
+      renderTags();
+      renderGrid();
+    })
+    .catch(function () {
+      document.getElementById('grid').innerHTML = '<div class="empty-state">データの読み込みに失敗しました。</div>';
+    });
+})();
+</script>
