@@ -143,17 +143,6 @@
       "dateAdded": "2026-07-28",
       "cover": "covers/supplement-brand-scoring.png",
       "pageCount": 6
-    },
-    {
-      "id": "item-5ae1e9db",
-      "title": "テスト 自動取込確認用",
-      "client": "",
-      "tags": [],
-      "description": "",
-      "filename": "proposals/テスト_自動取込確認用.pdf",
-      "dateAdded": "2026-08-13",
-      "cover": "pages/item-5ae1e9db/001.png",
-      "pageCount": 1
     }
   ]
 }
