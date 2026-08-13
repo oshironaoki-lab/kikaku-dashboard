@@ -98,6 +98,7 @@
   }
   .carousel-track { display: flex; transition: transform .6s cubic-bezier(.4,0,.2,1); }
   .carousel-slide {
+    appearance: none; border: none; margin: 0; padding: 0; font: inherit; cursor: pointer;
     flex: none; width: 100%; aspect-ratio: 16 / 7; position: relative;
     text-decoration: none; color: inherit; display: block;
   }
@@ -157,6 +158,50 @@
     text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 13px; line-height: 1.9;
   }
 
+  .focus-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    background: var(--accent-soft); border-radius: 10px; padding: 9px 13px; margin-bottom: 12px;
+    font-size: 12px; color: var(--accent); font-weight: 700;
+  }
+  .focus-bar button {
+    appearance: none; border: none; background: transparent; color: var(--accent);
+    font: inherit; font-weight: 800; font-size: 12px; cursor: pointer; text-decoration: underline;
+  }
+
+  .preview-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-secondary);
+    text-decoration: none; font: inherit; font-size: 11.5px; font-weight: 800;
+    padding: 7px 13px; border-radius: 999px; cursor: pointer;
+  }
+  .preview-btn:active { background: var(--surface-2); }
+  .card-actions { display: flex; align-items: center; gap: 8px; }
+
+  /* ---- Preview modal ---- */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(10,9,6,0.6); z-index: 100;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  @media (min-width: 640px) { .modal-overlay { align-items: center; } }
+  .modal-card {
+    background: var(--surface); width: 100%; max-width: 560px; max-height: 88vh;
+    border-radius: 18px 18px 0 0; overflow-y: auto; box-shadow: 0 20px 60px -20px rgba(0,0,0,.5);
+  }
+  @media (min-width: 640px) { .modal-card { border-radius: 18px; } }
+  .modal-cover { width: 100%; aspect-ratio: 16 / 10; background-size: cover; background-position: center; position: relative; }
+  .modal-close {
+    position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(0,0,0,0.55); color: #fff; border: none; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px;
+  }
+  .modal-body { padding: 16px 18px 20px; }
+  .modal-title { font-size: 16px; font-weight: 800; line-height: 1.4; }
+  .modal-client { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+  .modal-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.8; margin-top: 10px; }
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .modal-foot { margin-top: 16px; display: flex; gap: 8px; }
+  .modal-foot .dl-btn { flex: 1; justify-content: center; padding: 11px 13px; font-size: 12.5px; }
+
   footer.pagefoot { max-width: 760px; margin: 30px auto 0; padding: 16px; font-size: 10.5px; color: var(--text-muted); line-height: 1.8; border-top: 1px solid var(--border); }
 </style>
 
@@ -181,13 +226,15 @@
   <div class="grid" id="grid"></div>
 </main>
 
+<div id="modalRoot"></div>
+
 <footer class="pagefoot">
   社内企画資料ライブラリ。掲載資料の著作権・利用範囲は各案件の契約条件に準じます。
 </footer>
 
 <script>
 (function () {
-  var state = { items: [], activeTags: new Set(), query: '' };
+  var state = { items: [], activeTags: new Set(), query: '', focusId: null };
 
   function fileTypeOf(filename) {
     var ext = filename.split('.').pop().toLowerCase();
@@ -229,6 +276,7 @@
       btn.textContent = tag;
       btn.setAttribute('aria-pressed', state.activeTags.has(tag) ? 'true' : 'false');
       btn.addEventListener('click', function () {
+        state.focusId = null;
         if (state.activeTags.has(tag)) state.activeTags.delete(tag);
         else state.activeTags.add(tag);
         renderTags();
@@ -239,6 +287,7 @@
   }
 
   function matches(item) {
+    if (state.focusId) { return item.id === state.focusId; }
     if (state.activeTags.size > 0) {
       var itemTags = new Set(item.tags || []);
       for (var t of state.activeTags) { if (!itemTags.has(t)) return false; }
@@ -262,7 +311,23 @@
       return;
     }
 
-    countEl.textContent = filtered.length + '件 / 全' + state.items.length + '件';
+    if (state.focusId) {
+      countEl.innerHTML = '';
+      var bar = document.createElement('div');
+      bar.className = 'focus-bar';
+      bar.innerHTML = '<span>カルーセルで選択中の資料を表示しています</span>';
+      var clearBtn = document.createElement('button');
+      clearBtn.type = 'button';
+      clearBtn.textContent = 'すべて表示に戻る';
+      clearBtn.addEventListener('click', function () {
+        state.focusId = null;
+        renderGrid();
+      });
+      bar.appendChild(clearBtn);
+      countEl.appendChild(bar);
+    } else {
+      countEl.textContent = filtered.length + '件 / 全' + state.items.length + '件';
+    }
 
     if (filtered.length === 0) {
       grid.innerHTML = '<div class="empty-state">条件に一致する資料が見つかりませんでした。</div>';
@@ -274,7 +339,7 @@
       var tagsHtml = (it.tags || []).map(function (t) { return '<span class="card-tag">' + escapeHtml(t) + '</span>'; }).join('');
       return '' +
         '<div class="card">' +
-          '<div class="card-cover" style="' + coverBgCss(it) + '">' +
+          '<div class="card-cover" data-preview-id="' + escapeHtml(it.id) + '" style="' + coverBgCss(it) + '; cursor:pointer;">' +
             '<div class="filetype-badge ' + ft + '">' + ft.toUpperCase() + '</div>' +
           '</div>' +
           '<div class="card-body">' +
@@ -288,17 +353,72 @@
             (tagsHtml ? '<div class="card-tags">' + tagsHtml + '</div>' : '') +
             '<div class="card-foot">' +
               '<span class="card-date">' + escapeHtml(it.dateAdded || '') + '</span>' +
-              '<a class="dl-btn" href="' + encodeURI(it.filename) + '" download>' +
-                '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
-                'ダウンロード' +
-              '</a>' +
+              '<div class="card-actions">' +
+                '<button type="button" class="preview-btn" data-preview-id="' + escapeHtml(it.id) + '">' +
+                  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>' +
+                  'プレビュー' +
+                '</button>' +
+                '<a class="dl-btn" href="' + encodeURI(it.filename) + '" download>' +
+                  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                  'ダウンロード' +
+                '</a>' +
+              '</div>' +
             '</div>' +
           '</div>' +
         '</div>';
     }).join('');
+
+    Array.from(grid.querySelectorAll('[data-preview-id]')).forEach(function (el) {
+      el.addEventListener('click', function () {
+        var item = state.items.find(function (i) { return i.id === el.getAttribute('data-preview-id'); });
+        if (item) openPreview(item);
+      });
+    });
+  }
+
+  function openPreview(item) {
+    var root = document.getElementById('modalRoot');
+    var tagsHtml = (item.tags || []).map(function (t) { return '<span class="card-tag">' + escapeHtml(t) + '</span>'; }).join('');
+    root.innerHTML = '' +
+      '<div class="modal-overlay" id="modalOverlay">' +
+        '<div class="modal-card">' +
+          '<div class="modal-cover" style="' + coverBgCss(item) + '">' +
+            '<button type="button" class="modal-close" id="modalClose" aria-label="閉じる">&times;</button>' +
+          '</div>' +
+          '<div class="modal-body">' +
+            '<div class="modal-title">' + escapeHtml(item.title) + '</div>' +
+            (item.client ? '<div class="modal-client">' + escapeHtml(item.client) + '</div>' : '') +
+            (item.description ? '<div class="modal-desc">' + escapeHtml(item.description) + '</div>' : '') +
+            (tagsHtml ? '<div class="modal-tags">' + tagsHtml + '</div>' : '') +
+            '<div class="modal-foot">' +
+              '<a class="dl-btn" href="' + encodeURI(item.filename) + '" download>' +
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                'ダウンロード' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    var overlay = document.getElementById('modalOverlay');
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closePreview();
+    });
+    document.getElementById('modalClose').addEventListener('click', closePreview);
+    document.addEventListener('keydown', escCloseHandler);
+  }
+
+  function escCloseHandler(e) {
+    if (e.key === 'Escape') closePreview();
+  }
+
+  function closePreview() {
+    document.getElementById('modalRoot').innerHTML = '';
+    document.removeEventListener('keydown', escCloseHandler);
   }
 
   document.getElementById('searchInput').addEventListener('input', function (e) {
+    state.focusId = null;
     state.query = e.target.value;
     renderGrid();
   });
@@ -323,14 +443,26 @@
 
     track.innerHTML = slides.map(function (it) {
       return '' +
-        '<a class="carousel-slide" href="' + encodeURI(it.filename) + '" download>' +
+        '<button type="button" class="carousel-slide" data-focus-id="' + escapeHtml(it.id) + '">' +
           '<div class="cs-media" style="' + coverBgCss(it) + '"></div>' +
           '<div class="cs-overlay">' +
             '<div class="cs-title">' + escapeHtml(it.title) + '</div>' +
             (it.description ? '<div class="cs-desc">' + escapeHtml(it.description) + '</div>' : '') +
           '</div>' +
-        '</a>';
+        '</button>';
     }).join('');
+
+    Array.from(track.children).forEach(function (slideEl) {
+      slideEl.addEventListener('click', function () {
+        state.focusId = slideEl.getAttribute('data-focus-id');
+        state.query = '';
+        document.getElementById('searchInput').value = '';
+        state.activeTags.clear();
+        renderTags();
+        renderGrid();
+        document.getElementById('resultCount').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
 
     dots.innerHTML = slides.map(function (_, i) {
       return '<span data-i="' + i + '"' + (i === 0 ? ' class="active"' : '') + '></span>';

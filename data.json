@@ -4,7 +4,10 @@
       "id": "ja-okinawa-chuokai",
       "title": "JA沖縄中央会 企画提案",
       "client": "JA沖縄中央会",
-      "tags": ["JA沖縄中央会", "農業・団体"],
+      "tags": [
+        "JA沖縄中央会",
+        "農業・団体"
+      ],
       "description": "JA沖縄中央会向けの企画提案資料。",
       "cover": "covers/ja-okinawa-chuokai.jpeg",
       "filename": "proposals/JA沖縄中央会　企画資料.pptx",
@@ -14,7 +17,10 @@
       "id": "laifue",
       "title": "Laifue 企画資料",
       "client": "沖縄セルラー電話（Laifue）",
-      "tags": ["Laifue", "沖縄セルラー"],
+      "tags": [
+        "Laifue",
+        "沖縄セルラー"
+      ],
       "description": "沖縄セルラー電話「Laifue」向けの企画提案資料。",
       "cover": "covers/laifue.jpeg",
       "filename": "proposals/Laifue企画資料.pptx",
@@ -24,7 +30,10 @@
       "id": "recruit-partner-program",
       "title": "リクルートパートナープログラム 企画書（改訂版）",
       "client": "リクルート",
-      "tags": ["リクルート", "パートナープログラム"],
+      "tags": [
+        "リクルート",
+        "パートナープログラム"
+      ],
       "description": "リクルートパートナープログラムに関する企画書の改訂版。",
       "cover": "covers/recruit-partner-program.jpeg",
       "filename": "proposals/リクルートパートナープログラム_企画書_改訂版.pptx",
@@ -34,64 +43,96 @@
       "id": "ryukyu-lease-competition-proposal",
       "title": "琉球リース様 企画コンペご提案書",
       "client": "琉球リース",
-      "tags": ["琉球リース", "企画コンペ", "提案書"],
+      "tags": [
+        "琉球リース",
+        "企画コンペ",
+        "提案書"
+      ],
       "description": "琉球リース様向け企画コンペのメイン提案書。",
       "filename": "proposals/①株式会社宣伝御中_琉球リース様企画コンペご提案書につきまして.pdf",
-      "dateAdded": "2026-07-28"
+      "dateAdded": "2026-07-28",
+      "cover": "covers/ryukyu-lease-competition-proposal.png"
     },
     {
       "id": "ryukyu-lease-mvv-proposal",
       "title": "琉球リース様 MVV策定浸透 提案書（統合版）",
       "client": "琉球リース",
-      "tags": ["琉球リース", "MVV策定", "ブランディング"],
+      "tags": [
+        "琉球リース",
+        "MVV策定",
+        "ブランディング"
+      ],
       "description": "琉球リース様のMVV（ミッション・ビジョン・バリュー）策定・浸透プロジェクトの統合提案書。",
       "filename": "proposals/琉球リース様_MVV策定浸透_提案書_統合版.pptx",
-      "dateAdded": "2026-07-23"
+      "dateAdded": "2026-07-23",
+      "cover": "covers/ryukyu-lease-mvv-proposal.png"
     },
     {
       "id": "supplement-edift-brochure",
       "title": "補足資料：Edift 総合パンフレット",
       "client": "",
-      "tags": ["補足資料", "会社紹介", "Edift"],
+      "tags": [
+        "補足資料",
+        "会社紹介",
+        "Edift"
+      ],
       "description": "汎用の会社・サービス紹介パンフレット。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料①_Edift_総合パンフレット_v8.pdf",
-      "dateAdded": "2026-07-28"
+      "dateAdded": "2026-07-28",
+      "cover": "covers/supplement-edift-brochure.png"
     },
     {
       "id": "supplement-corebook",
       "title": "補足資料：CoreBook説明資料",
       "client": "",
-      "tags": ["補足資料", "CoreBook", "会社紹介"],
+      "tags": [
+        "補足資料",
+        "CoreBook",
+        "会社紹介"
+      ],
       "description": "CoreBookに関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料②_CoreBook説明資料.pdf",
-      "dateAdded": "2026-07-28"
+      "dateAdded": "2026-07-28",
+      "cover": "covers/supplement-corebook.png"
     },
     {
       "id": "supplement-vision-realize",
       "title": "補足資料：Visionリアライズ",
       "client": "",
-      "tags": ["補足資料", "ビジョン策定"],
+      "tags": [
+        "補足資料",
+        "ビジョン策定"
+      ],
       "description": "ビジョン策定・実現支援に関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料③_Visionリアライズ.pdf",
-      "dateAdded": "2026-07-28"
+      "dateAdded": "2026-07-28",
+      "cover": "covers/supplement-vision-realize.png"
     },
     {
       "id": "supplement-hr-evaluation",
       "title": "補足資料：人事評価制度構築支援",
       "client": "",
-      "tags": ["補足資料", "人事評価制度"],
+      "tags": [
+        "補足資料",
+        "人事評価制度"
+      ],
       "description": "人事評価制度構築支援に関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料④_03_人事評価制度構築支援.pdf",
-      "dateAdded": "2026-07-28"
+      "dateAdded": "2026-07-28",
+      "cover": "covers/supplement-hr-evaluation.png"
     },
     {
       "id": "supplement-brand-scoring",
       "title": "補足資料：ブランドスコアリング",
       "client": "",
-      "tags": ["補足資料", "ブランディング"],
+      "tags": [
+        "補足資料",
+        "ブランディング"
+      ],
       "description": "ブランドスコアリングに関する説明資料。他案件の補足資料としても再利用可能。",
       "filename": "proposals/補足資料⑤_ブランドスコアリング.pdf",
-      "dateAdded": "2026-07-28"
+      "dateAdded": "2026-07-28",
+      "cover": "covers/supplement-brand-scoring.png"
     }
   ]
 }
