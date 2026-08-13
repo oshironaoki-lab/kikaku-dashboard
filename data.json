@@ -1,3 +1,257 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "20120413-1-6c17d15c",
+      "title": "20120413イーアス1周年企画アイデア",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/20120413イーアス1周年企画アイデア.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/20120413-1-6c17d15c/001.png",
+      "pageCount": 10
+    },
+    {
+      "id": "20200610-30-d139ec9c",
+      "title": "20200610リウボウ30周年企画打合せシート",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/20200610リウボウ30周年企画打合せシート.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/20200610-30-d139ec9c/001.png",
+      "pageCount": 15
+    },
+    {
+      "id": "20201112-30th-de6a4ce7",
+      "title": "20201112パレットくもじ30th企画アイデア",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/20201112パレットくもじ30th企画アイデア.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/20201112-30th-de6a4ce7/001.png",
+      "pageCount": 14
+    },
+    {
+      "id": "20210202-70-1778fec1",
+      "title": "20210202ぐしけんパン70周年企画",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/20210202ぐしけんパン70周年企画.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/20210202-70-1778fec1/001.png",
+      "pageCount": 17
+    },
+    {
+      "id": "20251024-fin-9dbf7f28",
+      "title": "20251024アルファステイツ北谷アラハ あなぶきfin",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/20251024アルファステイツ北谷アラハ_あなぶきfin.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/20251024-fin-9dbf7f28/001.png",
+      "pageCount": 100
+    },
+    {
+      "id": "2025-au-1-5436d609",
+      "title": "2025年度沖縄セルラーau春キャンペーン (1)",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/2025年度沖縄セルラーau春キャンペーン (1).pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/2025-au-1-5436d609/001.png",
+      "pageCount": 53
+    },
+    {
+      "id": "obf2026-20260318-6140d4d1",
+      "title": "OBF2026ご提案資料について20260318",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/OBF2026ご提案資料について20260318.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/obf2026-20260318-6140d4d1/001.png",
+      "pageCount": 29
+    },
+    {
+      "id": "250815-4-2be03730",
+      "title": "【エレファント】修正沖縄そば企画 250815-4",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/【エレファント】修正沖縄そば企画_250815-4.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/250815-4-2be03730/001.png",
+      "pageCount": 61
+    },
+    {
+      "id": "2025-12-3d0f002f",
+      "title": "【サービス資料】巨大ガチャ「モンスターカプセル」2025年12月版",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/【サービス資料】巨大ガチャ「モンスターカプセル」2025年12月版.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/2025-12-3d0f002f/001.png",
+      "pageCount": 32
+    },
+    {
+      "id": "2025-12-48271a6f",
+      "title": "【導入事例】巨大ガチャ「モンスターカプセル」2025年12月版",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/【導入事例】巨大ガチャ「モンスターカプセル」2025年12月版.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/2025-12-48271a6f/001.png",
+      "pageCount": 19
+    },
+    {
+      "id": "8-sns-0419677d",
+      "title": "ご提案書 ㈱宣伝令和8年度上半期ボートレース大村SNS広告掲載業務",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/ご提案書_㈱宣伝令和8年度上半期ボートレース大村SNS広告掲載業務.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/8-sns-0419677d/001.png",
+      "pageCount": 52
+    },
+    {
+      "id": "8-web-f3aeb29e",
+      "title": "ご提案書 ㈱宣伝令和8年度上半期ボートレース大村WEB広告掲載業務",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/ご提案書_㈱宣伝令和8年度上半期ボートレース大村WEB広告掲載業務.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/8-web-f3aeb29e/001.png",
+      "pageCount": 56
+    },
+    {
+      "id": "item-c6267244",
+      "title": "てだこウォーク企画提案書",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/てだこウォーク企画提案書.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/item-c6267244/001.png",
+      "pageCount": 20
+    },
+    {
+      "id": "2025-vol2-59e43eef",
+      "title": "りうぼうストア様向け2025年度集客向上企画vol2",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/りうぼうストア様向け2025年度集客向上企画vol2.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/2025-vol2-59e43eef/001.png",
+      "pageCount": 49
+    },
+    {
+      "id": "websns-0808-9e8ffd15",
+      "title": "りうぼうネットスーパー WEBSNS広告提案書0808",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/りうぼうネットスーパー　WEBSNS広告提案書0808.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/websns-0808-9e8ffd15/001.png",
+      "pageCount": 14
+    },
+    {
+      "id": "sns-a7fbd764",
+      "title": "りゅうぎんSNS企画",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/りゅうぎんSNS企画.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/sns-a7fbd764/001.png",
+      "pageCount": 22
+    },
+    {
+      "id": "item-0f552594",
+      "title": "市役所サイネージ広告提案資料",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/市役所サイネージ広告提案資料.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/item-0f552594/001.png",
+      "pageCount": 17
+    },
+    {
+      "id": "20260206-1-2e08091b",
+      "title": "沖縄県民による結婚式数の底上げにつながる企画提案書(チュチュ沖縄宛） 20260206 1",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/沖縄県民による結婚式数の底上げにつながる企画提案書(チュチュ沖縄宛）_20260206 1.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/20260206-1-2e08091b/001.png",
+      "pageCount": 20
+    },
+    {
+      "id": "20260206-a266445c",
+      "title": "沖縄県民による結婚式数の底上げにつながる企画提案書(チュチュ沖縄宛） 20260206",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/沖縄県民による結婚式数の底上げにつながる企画提案書(チュチュ沖縄宛）_20260206.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/20260206-a266445c/001.png",
+      "pageCount": 20
+    },
+    {
+      "id": "1-251211-e09fa5ac",
+      "title": "託一1月以降テレビ放送の考え方251211",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/託一1月以降テレビ放送の考え方251211.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/1-251211-e09fa5ac/001.png",
+      "pageCount": 8
+    },
+    {
+      "id": "cm-68918284",
+      "title": "託一さまCMオンエアプランご提案書",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/託一さまCMオンエアプランご提案書.pptx",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/cm-68918284/001.png",
+      "pageCount": 16
+    },
+    {
+      "id": "cm-250815-9eccc48b",
+      "title": "託一株式会社御中 テレビCMご出稿に関するご提案250815",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/託一株式会社御中_テレビCMご出稿に関するご提案250815.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/cm-250815-9eccc48b/001.png",
+      "pageCount": 16
+    },
+    {
+      "id": "cm-250815-a94f533a",
+      "title": "託一株式会社御中 テレビCM制作企画案250815",
+      "client": "",
+      "tags": [],
+      "description": "",
+      "filename": "proposals/託一株式会社御中_テレビCM制作企画案250815.pdf",
+      "dateAdded": "2026-08-13",
+      "cover": "pages/cm-250815-a94f533a/001.png",
+      "pageCount": 23
+    }
+  ]
 }
